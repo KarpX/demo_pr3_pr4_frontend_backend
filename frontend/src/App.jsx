@@ -194,11 +194,11 @@ export default function App() {
                 <h2>
                   <b>{p.title}</b>
                 </h2>
-                <p>{p.description}</p>
-                <p>{p.category} </p>
+                <p id="description">{p.description}</p>
+                <p id="category">{p.category} </p>
               </div>
 
-              <p>{p.price} ₽ </p>
+              <p id="price">{p.price} ₽ </p>
               <p>{`На складе: ${p.stock}`}</p>
               <div className="buttons">
                 <button

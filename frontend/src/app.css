@@ -21,29 +21,39 @@ li {
 li img {
   width: 200px;
   height: 200px;
-  object-fit: cover;
+  object-fit: contain;
   margin: 0;
   border-radius: 15px 0 0 15px;
 }
 
 li p {
-  margin: 20px;
+  margin: 0;
 }
 
 li h2 {
   margin-left: 20px;
+  align-self: center;
 }
 
 #description {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  margin: 0 20px 0 20px;
 }
 
 #main-info {
   height: 100%;
   display: grid;
-  grid-template-rows: 34% 33% 33%;
+  grid-template-rows: 35% 50% 15%;
+}
+
+#main-info p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#category {
+  line-height: normal;
+  height: fit-content;
+  margin: 0 20px 0 20px;
 }
 
 button {
