@@ -67,6 +67,7 @@ export default function App() {
       setPrice("");
       setDescription("");
       setStock("");
+      setCategory("");
       setImg("");
       await load();
     } catch (e) {
@@ -194,12 +195,16 @@ export default function App() {
                 <h2>
                   <b>{p.title}</b>
                 </h2>
-                <p id="description">{p.description}</p>
                 <p id="category">{p.category} </p>
               </div>
+              <div id="description">
+                <p>{p.description}</p>
+                <div id="price">
+                  <p id="price">{p.price} ₽ </p>
+                  <p>{`На складе: ${p.stock}`}</p>
+                </div>
+              </div>
 
-              <p id="price">{p.price} ₽ </p>
-              <p>{`На складе: ${p.stock}`}</p>
               <div className="buttons">
                 <button
                   onClick={() => onPricePlus(p.id, p.price)}
