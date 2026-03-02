@@ -13,3 +13,4 @@
 - Созданы функции работы с Api – `frontend/src/api/productsApi.js`
 - Улучшен дизайн страницы для работы с Api – `frontend/src/app.css`
 - Написана документация к Api с помощью Swagger - `backend/app.js`
+- Добавлены новые routes
