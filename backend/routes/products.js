@@ -13,6 +13,21 @@ function findById(id) {
   return products.find((p) => p.id === id) || null;
 }
 
+function findListByCategory(category) {
+  return (
+    products.filter(
+      (p) => p.category.toLowerCase() === category.toLowerCase(),
+    ) || null
+  );
+}
+
+function findListByPrice(price) {
+  products.forEach((el) => {
+    console.log(el.price);
+  });
+  return products.filter((p) => p.price === Number(price)) || null;
+}
+
 /**
  * TODO (Практика 3):
  * Добавьте валидацию входных данных: title/category/description/price/stock
@@ -23,6 +38,20 @@ function findById(id) {
 
 router.get("/", (req, res) => {
   res.json(products);
+});
+
+router.get("/category/:category", (req, res) => {
+  const oneCategory = findListByCategory(req.params.category);
+  if (!oneCategory)
+    return res.status(404).json({ error: "Products not found" });
+  res.json(oneCategory);
+});
+
+router.get("/price/:price", (req, res) => {
+  const onePrice = findListByPrice(req.params.price);
+  console.log(onePrice);
+  if (!onePrice) return res.status(404).json({ error: "Products not found" });
+  res.json(onePrice);
 });
 
 // GET /api/products/:id — один товар
@@ -92,6 +121,20 @@ router.delete("/:id", (req, res) => {
   }
 
   // Обычно делают 204 No Content, но для наглядности вернём JSON
+  res.json({ ok: true });
+});
+
+router.delete("/name/:name", (req, res) => {
+  const name = req.params.name;
+  const before = products.length;
+  products = products.filter(
+    (p) => p.title.toLowerCase() !== name.toLowerCase(),
+  );
+
+  if (products.length === before) {
+    return res.status(404).json({ error: "Product not found" });
+  }
+
   res.json({ ok: true });
 });
 

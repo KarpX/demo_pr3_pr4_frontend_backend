@@ -25,3 +25,23 @@ export async function deleteProduct(id) {
   const response = await api.delete(`products/${id}`);
   return response.data;
 }
+
+export async function deleteProductByName(name) {
+  const response = await api.delete(`products/name/${name}`);
+  return response.data;
+}
+
+export async function getProductsByCategory(category) {
+  const response = await api.get(`products/category/${category}`);
+  return response.data;
+}
+
+export async function getProductsByPrice(price) {
+  const response = await api.get(`products/price/${price}`);
+  return response.data;
+}
+
+export async function getProductById(id) {
+  const response = await api.get(`products/${id}`);
+  return response.data;
+}

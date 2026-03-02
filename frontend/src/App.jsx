@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import {
   createProduct,
   deleteProduct,
+  deleteProductByName,
   getProducts,
+  getProductsByCategory,
+  getProductsByPrice,
   updateProduct,
 } from "./api/productsApi";
 import "./app.css";
@@ -24,6 +27,10 @@ export default function App() {
   const [stock, setStock] = useState("");
   const [category, setCategory] = useState("");
   const [img, setImg] = useState("");
+
+  const [searchCategory, setSearchCategory] = useState("");
+  const [searchPrice, setSearchPrice] = useState("");
+  const [deleteName, setDeleteName] = useState("");
 
   const canSubmit = useMemo(
     () => title.trim() !== "" && price !== "",
@@ -47,6 +54,34 @@ export default function App() {
   useEffect(() => {
     load();
   }, []);
+
+  async function loadOneCategory() {
+    setError("");
+    setLoading(true);
+    try {
+      const data = await getProductsByCategory(searchCategory); // TODO: заработает после реализации productsApi.js
+      setItems(data);
+      console.log("items", items);
+    } catch (e) {
+      setError(String(e?.message || e));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function loadOnePrice() {
+    setError("");
+    setLoading(true);
+    try {
+      const data = await getProductsByPrice(searchPrice); // TODO: заработает после реализации productsApi.js
+      setItems(data);
+      console.log("items", items);
+    } catch (e) {
+      setError(String(e?.message || e));
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function onAdd(e) {
     e.preventDefault();
@@ -83,6 +118,17 @@ export default function App() {
     } catch (e) {
       setError(String(e?.message || e));
     }
+  }
+
+  async function onDeleteName() {
+    setError("");
+    try {
+      await deleteProductByName(deleteName);
+      await load();
+    } catch (e) {
+      setError(String(e?.message || e));
+    }
+    setDeleteName("");
   }
 
   async function onPricePlus(id, currentPrice) {
@@ -176,6 +222,50 @@ export default function App() {
 
       <section style={{ marginTop: 24 }}>
         <h2>Список товаров</h2>
+        <div className="list-buttons">
+          <input
+            id="searchCategory"
+            value={searchCategory}
+            onChange={(e) => setSearchCategory(e.target.value)}
+            placeholder="Категория"
+            type="string"
+          ></input>
+          <button
+            type="button"
+            onClick={loadOneCategory}
+            style={{ padding: "10px 14px" }}
+          >
+            Поиск по категории
+          </button>
+          <input
+            id="searchPrice"
+            value={searchPrice}
+            onChange={(e) => setSearchPrice(e.target.value)}
+            placeholder="Цена"
+            type="Number"
+          ></input>
+          <button
+            type="button"
+            onClick={loadOnePrice}
+            style={{ padding: "10px 14px" }}
+          >
+            Поиск по цене
+          </button>
+          <input
+            id="deleteByName"
+            value={deleteName}
+            onChange={(e) => setDeleteName(e.target.value)}
+            placeholder="Название"
+            type="String"
+          ></input>
+          <button
+            type="button"
+            onClick={onDeleteName}
+            style={{ padding: "10px 14px" }}
+          >
+            Удалить
+          </button>
+        </div>
 
         {loading && <p>Загрузка...</p>}
         {error && (
